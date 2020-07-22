@@ -17,7 +17,13 @@ var messagesRef = firebase.database().ref();
 //var ref = database.ref("contactform-4e849");
 messagesRef.on("value", gotData, errData);
 
+//function to fetch data from realtime database
 function gotData(data) {
+  var users = document.querySelectorAll(".users");
+  for (var i = 0; i < users.length; i++) {
+    users[i].remove();
+  }
+
   // console.log(data.val());
   var user = data.val();
   var keys = Object.keys(user);
@@ -30,11 +36,23 @@ function gotData(data) {
     var phone = user[k].phone;
     table.insertAdjacentHTML(
       "afterend",
-      `<tr><th scope="row">${
+      `<tr class="users"><th scope="row">${
         i + 1
-      }</th><td>${name}</td><td>${email}</td><td>${phone}</td></tr>`
+      }</th><td><input type="text" value=${name} class="form-control" readonly></td><td><input type="email" value=${email} class="form-control" readonly></td><td><input type="number" value=${phone} class="form-control" readonly></td><td id=${k}><button type="button" class="btn btn-primary">
+      Edit
+    </button></td><td ><button id=${k} type="button" class="btn btn-danger" onclick="deleteUser(this)">
+    Delete
+  </button></td></tr>`
     );
   }
+}
+
+function deleteUser(e) {
+  let key = e.id;
+  console.log(key);
+  let userRef = firebase.database().ref(key);
+  userRef.remove();
+  console.log("User Removed");
 }
 
 function errData(err) {
