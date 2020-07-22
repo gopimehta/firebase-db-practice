@@ -1,0 +1,120 @@
+* {
+  box-sizing: boarder box;
+}
+body {
+  background: #f1b7f3;
+  color: #403040;
+  line-height: 1.6;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1em;
+}
+
+.container {
+  max-width: 1170px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1em;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.brand {
+  text-align: center;
+}
+
+.wrapper {
+  box-shadow: 0 0 20px 0 rgba(72, 94, 116, 0.7);
+}
+
+.wrapper > * {
+  padding: 1em;
+}
+
+.company-info {
+  background: #f2e1f3;
+}
+
+.company-info h3 {
+  text-align: center;
+  margin: 0 0 1rem 0;
+}
+.company-info p {
+  text-align: center;
+  margin: 0 0 1rem 0;
+}
+
+.contact {
+  background: #f9feff;
+}
+
+/* .contact form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+} */
+
+.contact form label {
+  display: block;
+}
+
+.contact form p {
+  margin: 0;
+}
+
+.contact form input,
+.contact form textarea {
+  padding: 1em;
+  width: 70%;
+  border: 1px solid #dfd6df;
+}
+
+.contact form button {
+  width: 100%;
+  padding: 1em;
+  background: #f2e1f3;
+  text-transform: uppercase;
+  border: 1px solid #dfd6df;
+  color: black;
+}
+
+.contact form button:hover,
+.contact form button:focus {
+  background: #6b406c;
+  color: #fff;
+  outline: 0;
+}
+.alert {
+  text-align: center;
+  padding: 10px;
+  background: #79c879;
+  color: #fff;
+  margin-bottom: 10px;
+  display: none;
+}
+/* to hide input type number arrows */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* for large screens*/
+
+@media (min-width: 700px) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .wrapper > * {
+    padding: 2em;
+  }
+}
