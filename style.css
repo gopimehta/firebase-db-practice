@@ -1,5 +1,5 @@
 * {
-  box-sizing: boarder box;
+  box-sizing: border-box;
 }
 body {
   background: #f1b7f3;
@@ -8,7 +8,6 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding: 1em;
 }
-
 .container {
   max-width: 1170px;
   margin-left: auto;
@@ -117,4 +116,15 @@ input[type="number"] {
   .wrapper > * {
     padding: 2em;
   }
+}
+
+.row  > .col-sm {
+  border: 1px black solid;
+  padding: 1em;
+  text-align: center;
+}
+#userlist{
+  display: block;
+  width: 100%;
+  margin: 0px auto;
 }

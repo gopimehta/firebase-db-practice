@@ -16,35 +16,74 @@ var messagesRef = firebase.database().ref();
 
 //var ref = database.ref("contactform-4e849");
 messagesRef.on("value", gotData, errData);
-
 //function to fetch data from realtime database
+
+let updatedVals = {};
 function gotData(data) {
   var users = document.querySelectorAll(".users");
   for (var i = 0; i < users.length; i++) {
     users[i].remove();
   }
-
-  // console.log(data.val());
   var user = data.val();
+  console.log("user: ", user);
   var keys = Object.keys(user);
   var table = document.getElementById("userlist");
-  // console.log(keys);
   for (var i = 0; i < keys.length; i++) {
     var k = keys[i];
     var name = user[k].name;
     var email = user[k].email;
     var phone = user[k].phone;
-    table.insertAdjacentHTML(
-      "afterend",
-      `<tr class="users"><th scope="row">${
-        i + 1
-      }</th><td><input type="text" value=${name} class="form-control" readonly></td><td><input type="email" value=${email} class="form-control" readonly></td><td><input type="number" value=${phone} class="form-control" readonly></td><td id=${k}><button type="button" class="btn btn-primary">
-      Edit
-    </button></td><td ><button id=${k} type="button" class="btn btn-danger" onclick="deleteUser(this)">
-    Delete
-  </button></td></tr>`
-    );
+    updatedVals[k] = {
+      name: name,
+      email: email,
+      phone: phone,
+    };
+    console.log(updatedVals);
+    table.innerHTML += `<form id=${k} class="row updateForm users">
+            <span class="col-sm">${i + 1}</span>
+            <input type="text" id="${
+              k + name
+            }" data-id=${k} value="${name}" name="name" class="col-sm" onchange="onChange(this)" onclick="editUser(this)" readonly/>
+            <input id=${email} data-id=${k} type="email" value=${email} name="email" class="col-sm" onchange="onChange(this)" onclick="editUser(this)" readonly/>
+            <input id=${phone} data-id=${k} type="number" value=${phone} name="phone" class="col-sm" onchange="onChange(this)" onclick="editUser(this)" readonly/>
+            <input type="submit" id=${k} value="Save" class="col-sm p-3 btn-success"/>
+            <input id=${k} type="button" value="Delete" class="col-sm p-3 btn-danger" onclick="deleteUser(this)"/>
+    </form>`;
   }
+  const forms = document.getElementsByClassName("updateForm");
+  for (i = 0; i < forms.length; i++) {
+    forms[i].addEventListener("submit", updateForm);
+  }
+}
+function onChange(e) {
+  updatedVals[e.dataset.id] = {
+    ...updatedVals[e.dataset.id],
+    [e.name]: e.value,
+  };
+  // console.log(updatedVals);
+}
+function editUser(e) {
+  let key = e.id;
+  let edit = true;
+  document.getElementById(key).readOnly = !edit;
+}
+
+function updateForm(e) {
+  e.preventDefault();
+  var k = e.target.id;
+  var n = updatedVals[k].name;
+  var e = updatedVals[k].email;
+  var p = updatedVals[k].phone;
+  updateUser(k, n, e, p);
+}
+
+function updateUser(key, name, email, phone) {
+  let userRef = firebase.database().ref(key);
+  userRef.update({
+    name: name,
+    email: email,
+    phone: phone,
+  });
 }
 
 function deleteUser(e) {
@@ -59,7 +98,6 @@ function errData(err) {
   console.log("Error");
   console.log(err);
 }
-
 // listen
 document.getElementById("contactForm").addEventListener("submit", submitForm);
 
@@ -87,6 +125,7 @@ function submitForm(e) {
 
 //function to get form values
 function getInputVal(id) {
+  console.log("id: ", id);
   return document.getElementById(id).value;
 }
 
